@@ -43,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonEvent.cs" />
+    <Compile Include="WebDownloader.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="WebSvc\AtndJsonParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

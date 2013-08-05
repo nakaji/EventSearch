@@ -53,6 +53,9 @@
   <ItemGroup>
     <Compile Include="ChainingAssertion.MSTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebDownloaderTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="WebSvc\AtndJsonParserTest.cs" />
   </ItemGroup>
   <ItemGroup>
