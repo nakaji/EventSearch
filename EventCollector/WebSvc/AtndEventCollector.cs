@@ -9,7 +9,18 @@ namespace EventCollector.WebSvc
     public class AtndEventCollector
     {
         private const string BaseUrl = "http://api.atnd.org/events/?format=json";
-        private const int ReadCount = 25;
+
+        public int ReadCount { get; private set; }
+
+        public AtndEventCollector()
+        {
+            ReadCount = 25;
+        }
+
+        public AtndEventCollector(int readCount)
+        {
+            ReadCount = readCount;
+        }
 
         public IList<CommonEvent> GetEvents(int ym, string keyword)
         {
