@@ -56,6 +56,7 @@
     <Compile Include="WebDownloaderTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WebSvc\AtndEventCollectorTest.cs" />
     <Compile Include="WebSvc\AtndJsonParserTest.cs" />
   </ItemGroup>
   <ItemGroup>

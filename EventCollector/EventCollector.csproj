@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AtndEventCollector.cs" />
     <Compile Include="CommonEvent.cs" />
     <Compile Include="WebDownloader.cs">
       <SubType>Code</SubType>
