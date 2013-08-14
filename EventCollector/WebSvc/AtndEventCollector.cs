@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EventCollector.WebSvc;
 using EventData;
 
-namespace EventCollector
+namespace EventCollector.WebSvc
 {
     public class AtndEventCollector
     {
