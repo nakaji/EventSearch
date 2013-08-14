@@ -59,6 +59,7 @@
     <Compile Include="WebSvc\AtndEventCollectorTest.cs" />
     <Compile Include="WebSvc\AtndJsonParserTest.cs" />
     <Compile Include="WebSvc\DoorkeeperJsonParserTest.cs" />
+    <Compile Include="WebSvc\DoorkeeperEventCollectorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EventCollector\EventCollector.csproj">
