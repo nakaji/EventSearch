@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WebSvc\AllEventCollector.cs" />
     <Compile Include="WebSvc\DoorkeeperEventCollector.cs" />
     <Compile Include="WebSvc\AtndEventCollector.cs" />
     <Compile Include="CommonEvent.cs" />

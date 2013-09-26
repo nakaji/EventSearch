@@ -30,7 +30,7 @@ namespace EventCollectorTest.WebSvc
             var sut = new DoorkeeperEventCollector();
             var result = sut.GetEvents(201307, "松山");
 
-            result.Count().IsNot(0);
+            result.Count().Is(1);
             // 2013年7月にかからないイベントは存在しない
             result.Any(x => x.EndedAt < new DateTime(2013, 07, 01) && x.StartedAt >= new DateTime(2013, 08, 01)).IsFalse();
         }
