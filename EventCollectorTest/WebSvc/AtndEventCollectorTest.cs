@@ -22,14 +22,6 @@ namespace EventCollectorTest.WebSvc
 
                 sut.ReadCount.Is(25);
             }
-
-            [TestMethod]
-            public void 読み込み件数をコンストラクタで指定できる()
-            {
-                var sut = new AtndEventCollector(50);
-
-                sut.ReadCount.Is(50);
-            }
         }
 
         [TestMethod]
