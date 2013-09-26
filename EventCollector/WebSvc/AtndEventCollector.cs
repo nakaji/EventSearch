@@ -6,15 +6,12 @@ using EventData;
 
 namespace EventCollector.WebSvc
 {
-    public class AtndEventCollector
+    public class AtndEventCollector : EventCollector
     {
         private const string BaseUrl = "http://api.atnd.org/events/?format=json";
 
-        public int ReadCount { get; private set; }
-
         public AtndEventCollector()
         {
-            ReadCount = 25;
         }
 
         public AtndEventCollector(int readCount)
@@ -22,7 +19,7 @@ namespace EventCollector.WebSvc
             ReadCount = readCount;
         }
 
-        public IList<CommonEvent> GetEvents(int ym, string keyword)
+        public override IList<CommonEvent> GetEvents(int ym, string keyword)
         {
             var apiUrl = string.Format(BaseUrl + "&count={0}&keyword={1}&ym={2}", ReadCount, keyword, ym);
 
