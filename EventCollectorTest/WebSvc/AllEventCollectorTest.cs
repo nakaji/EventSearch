@@ -16,12 +16,35 @@ namespace EventCollectorTest.WebSvc
         [TestMethod]
         public void 全てのサービスからイベント取得()
         {
-            var sut = new AllEventCollector();
+            var factory = new MockFactory();
+
+            List<CommonEvent> mockResult;
+
+            var mock1 = factory.CreateMock<BaseEventCollector>();
+            mockResult = new List<CommonEvent>();
+            mockResult.AddRange(new[]
+                      {
+                          new CommonEvent("Mock1Event1", null, null, "", "", "", "", "", ""),
+                          new CommonEvent("Mock1Event2", null, null, "", "", "", "", "", ""),
+                      });
+            mock1.Expects.One.MethodWith(x => x.GetEvents(201307, "松山")).WillReturn(mockResult);
+
+            var mock2 = factory.CreateMock<BaseEventCollector>();
+            mockResult = new List<CommonEvent>();
+            mockResult.AddRange(new[]
+                      {
+                          new CommonEvent("Mock2Event1", null, null, "", "", "", "", "", ""),
+                          new CommonEvent("Mock2Event2", null, null, "", "", "", "", "", ""),
+                          new CommonEvent("Mock2Event3", null, null, "", "", "", "", "", ""),
+                      });
+            mock2.Expects.One.MethodWith(x => x.GetEvents(201307, "松山")).WillReturn(mockResult);
+
+            var sut = new AllEventCollector(new[] { mock1.MockObject, mock2.MockObject });
             var result = sut.GetEvents(201307, "松山");
 
-            result.Count().Is(4);
+            result.Count().Is(5);
         }
-        
+
         [TestMethod]
         public void NMockのサンプル()
         {

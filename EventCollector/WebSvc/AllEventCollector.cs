@@ -18,6 +18,11 @@ namespace EventCollector.WebSvc
             _collectors.Add(new DoorkeeperEventCollector());
         }
 
+        public AllEventCollector(IEnumerable<BaseEventCollector> collectors)
+        {
+            _collectors.AddRange( collectors);
+        }
+
         public override IList<CommonEvent> GetEvents(int ym, string keyword)
         {
             var events = new List<CommonEvent>();
