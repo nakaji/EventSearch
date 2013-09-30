@@ -13,14 +13,20 @@ namespace EventCollectorTest.WebSvc
     [TestClass]
     public class AllEventCollectorTest
     {
+        private MockFactory _factory;
+
+        [TestInitialize]
+        public void SetUp()
+        {
+            _factory = new MockFactory();
+        }
+
         [TestMethod]
         public void 全てのサービスからイベント取得()
         {
-            var factory = new MockFactory();
-
             List<CommonEvent> mockResult;
 
-            var mock1 = factory.CreateMock<BaseEventCollector>();
+            var mock1 = _factory.CreateMock<BaseEventCollector>();
             mockResult = new List<CommonEvent>();
             mockResult.AddRange(new[]
                       {
@@ -29,7 +35,7 @@ namespace EventCollectorTest.WebSvc
                       });
             mock1.Expects.One.MethodWith(x => x.GetEvents(201307, "松山")).WillReturn(mockResult);
 
-            var mock2 = factory.CreateMock<BaseEventCollector>();
+            var mock2 = _factory.CreateMock<BaseEventCollector>();
             mockResult = new List<CommonEvent>();
             mockResult.AddRange(new[]
                       {
@@ -40,6 +46,7 @@ namespace EventCollectorTest.WebSvc
             mock2.Expects.One.MethodWith(x => x.GetEvents(201307, "松山")).WillReturn(mockResult);
 
             var sut = new AllEventCollector(new[] { mock1.MockObject, mock2.MockObject });
+
             var result = sut.GetEvents(201307, "松山");
 
             result.Count().Is(5);
@@ -48,11 +55,10 @@ namespace EventCollectorTest.WebSvc
         [TestMethod]
         public void NMockのサンプル()
         {
-            var factory = new MockFactory();
-            var mock = factory.CreateMock<BaseEventCollector>();
+            var mock = _factory.CreateMock<BaseEventCollector>();
 
             var result = new List<CommonEvent>();
-            result.AddRange(new CommonEvent[]
+            result.AddRange(new[]
                       {
                           new CommonEvent("A", null, null, "", "", "", "", "", ""),
                           new CommonEvent("A", null, null, "", "", "", "", "", ""),
@@ -63,7 +69,7 @@ namespace EventCollectorTest.WebSvc
 
             var sut = mock.MockObject;
 
-            sut.GetEvents(201307, "松山").Count();
+            sut.GetEvents(201307, "松山").Count().Is(2);
         }
 
     }
