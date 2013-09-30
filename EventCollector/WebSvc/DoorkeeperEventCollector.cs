@@ -6,7 +6,7 @@ using EventData;
 
 namespace EventCollector.WebSvc
 {
-    public class DoorkeeperEventCollector : EventCollector
+    public class DoorkeeperEventCollector : BaseEventCollector
     {
         private const string BaseUrl = "http://api.doorkeeper.jp/events?sort=starts_at&locale=ja";
 

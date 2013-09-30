@@ -8,11 +8,11 @@ using EventData;
 
 namespace EventCollector.WebSvc
 {
-    public class EventCollector
+    public class BaseEventCollector
     {
         public int ReadCount { get; protected set; }
 
-        protected EventCollector()
+        protected BaseEventCollector()
         {
             ReadCount = 25;
         }

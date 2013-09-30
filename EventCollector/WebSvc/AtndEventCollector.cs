@@ -6,7 +6,7 @@ using EventData;
 
 namespace EventCollector.WebSvc
 {
-    public class AtndEventCollector : EventCollector
+    public class AtndEventCollector : BaseEventCollector
     {
         private const string BaseUrl = "http://api.atnd.org/events/?format=json";
 

@@ -8,9 +8,9 @@ using EventData;
 
 namespace EventCollector.WebSvc
 {
-    public class AllEventCollector : EventCollector
+    public class AllEventCollector : BaseEventCollector
     {
-        private List<EventCollector> _collectors = new List<EventCollector>();
+        private List<BaseEventCollector> _collectors = new List<BaseEventCollector>();
 
         public AllEventCollector()
         {
