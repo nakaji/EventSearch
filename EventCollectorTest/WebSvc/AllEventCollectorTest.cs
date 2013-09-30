@@ -23,10 +23,10 @@ namespace EventCollectorTest.WebSvc
         }
         
         [TestMethod]
-        public void NMock()
+        public void NMockのサンプル()
         {
             var factory = new MockFactory();
-            var mock = factory.CreateMock<AtndEventCollector>();
+            var mock = factory.CreateMock<BaseEventCollector>();
 
             var result = new List<CommonEvent>();
             result.AddRange(new CommonEvent[]
