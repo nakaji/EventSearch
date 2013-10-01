@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using EventSearch.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using EventSearch;
 using EventSearch.Controllers;
@@ -12,43 +14,58 @@ namespace EventSearch.Tests.Controllers
     [TestClass]
     public class HomeControllerTest
     {
-        [TestMethod]
-        public void Index()
+        [TestClass]
+        public class Index
         {
-            // Arrange
-            HomeController controller = new HomeController();
+            [TestMethod]
+            public void 初期状態では今日の年月をセットする()
+            {
+                // Arrange
+                var controller = new HomeController();
 
-            // Act
-            ViewResult result = controller.Index() as ViewResult;
+                // Act
+                var result = controller.Index(new SearchModels()) as ViewResult;
 
-            // Assert
-            Assert.AreEqual("Modify this template to jump-start your ASP.NET MVC application.", result.ViewBag.Message);
+                // Assert
+                result.IsNotNull();
+                var model = result.Model as SearchModels;
+                model.IsNotNull();
+                model.Year.Is(DateTime.Now.Year);
+                model.Month.Is(DateTime.Now.Month);
+            }
+
+            [TestMethod]
+            public void 存在しない年が指定された場合は今日の年を使用する()
+            {
+                // Arrange
+                var controller = new HomeController();
+
+                // Act
+                var result = controller.Index(new SearchModels() { Year = 2021 }) as ViewResult;
+
+                // Assert
+                result.IsNotNull();
+                var model = result.Model as SearchModels;
+                model.IsNotNull();
+                model.Year.Is(DateTime.Now.Year);
+            }
+
+            [TestMethod]
+            public void 存在しない月が指定された場合は今日の月を使用する()
+            {
+                // Arrange
+                var controller = new HomeController();
+
+                // Act
+                var result = controller.Index(new SearchModels() { Month = 13 }) as ViewResult;
+
+                // Assert
+                result.IsNotNull();
+                var model = result.Model as SearchModels;
+                model.IsNotNull();
+                model.Month.Is(DateTime.Now.Month);
+            }
         }
 
-        [TestMethod]
-        public void About()
-        {
-            // Arrange
-            HomeController controller = new HomeController();
-
-            // Act
-            ViewResult result = controller.About() as ViewResult;
-
-            // Assert
-            Assert.IsNotNull(result);
-        }
-
-        [TestMethod]
-        public void Contact()
-        {
-            // Arrange
-            HomeController controller = new HomeController();
-
-            // Act
-            ViewResult result = controller.Contact() as ViewResult;
-
-            // Assert
-            Assert.IsNotNull(result);
-        }
     }
 }

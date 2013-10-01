@@ -3,23 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using EventCollector.WebSvc;
+using EventSearch.Models;
 
 namespace EventSearch.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(SearchModels model)
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            if (model.Year == 0 && model.Month == 0)
+            {
+                model.Year = DateTime.Now.Year;
+                model.Month = DateTime.Now.Month;
+                return View(model);
+            }
 
-            return View();
-        }
+            var eventCollector = new AllEventCollector();
+            if (model.Year < 2010 || model.Year > 2020) model.Year = DateTime.Now.Year;
+            if (model.Month < 1 || model.Month > 12) model.Month = DateTime.Now.Month;
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
+            return View(model);
         }
 
         public ActionResult Contact()
