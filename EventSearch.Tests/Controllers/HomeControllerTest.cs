@@ -17,14 +17,19 @@ namespace EventSearch.Tests.Controllers
         [TestClass]
         public class Index
         {
+            private HomeController _sut;
+
+            [TestInitialize]
+            public void SetUp()
+            {
+                _sut = new HomeController();
+            }
+
             [TestMethod]
             public void 初期状態では今日の年月をセットする()
             {
-                // Arrange
-                var controller = new HomeController();
-
                 // Act
-                var result = controller.Index(new SearchModels()) as ViewResult;
+                var result = _sut.Index(new SearchModels()) as ViewResult;
 
                 // Assert
                 result.IsNotNull();
@@ -37,11 +42,8 @@ namespace EventSearch.Tests.Controllers
             [TestMethod]
             public void 存在しない年が指定された場合は今日の年を使用する()
             {
-                // Arrange
-                var controller = new HomeController();
-
                 // Act
-                var result = controller.Index(new SearchModels() { Year = 2021 }) as ViewResult;
+                var result = _sut.Index(new SearchModels() { Year = 2021 }) as ViewResult;
 
                 // Assert
                 result.IsNotNull();
@@ -53,11 +55,8 @@ namespace EventSearch.Tests.Controllers
             [TestMethod]
             public void 存在しない月が指定された場合は今日の月を使用する()
             {
-                // Arrange
-                var controller = new HomeController();
-
                 // Act
-                var result = controller.Index(new SearchModels() { Month = 13 }) as ViewResult;
+                var result = _sut.Index(new SearchModels() { Month = 13 }) as ViewResult;
 
                 // Assert
                 result.IsNotNull();
