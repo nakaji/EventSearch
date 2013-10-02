@@ -124,6 +124,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EventCollector\EventCollector.csproj">
+      <Project>{464fcf94-4d13-4124-a6af-868bb1f938e4}</Project>
+      <Name>EventCollector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EventSearch\EventSearch.csproj">
       <Project>{8BB0BA77-3AF3-4646-9B22-FE21A0CF4DF1}</Project>
       <Name>EventSearch</Name>

@@ -18,6 +18,11 @@ namespace EventSearch.Models
         [Display(Name = "月")]
         public int Month { get; set; }
 
-        public List<CommonEvent> Events { get; set; } 
+        public List<CommonEvent> Events { get; set; }
+
+        public SearchModels()
+        {
+            Events = new List<CommonEvent>();
+        }
     }
 }

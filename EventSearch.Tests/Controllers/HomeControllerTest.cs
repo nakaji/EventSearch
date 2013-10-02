@@ -6,7 +6,7 @@ using System.Text;
 using System.Web.Mvc;
 using EventSearch.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using EventSearch;
+using EventCollector;
 using EventSearch.Controllers;
 
 namespace EventSearch.Tests.Controllers
@@ -63,6 +63,18 @@ namespace EventSearch.Tests.Controllers
                 var model = result.Model as SearchModels;
                 model.IsNotNull();
                 model.Month.Is(DateTime.Now.Month);
+            }
+
+            [TestMethod]
+            public void イベントの検索結果をモデルに含めて返却する()
+            {
+                // Act
+                var result = _sut.Index(new SearchModels() { Year = 2013, Month = 7, Keyword = "松山" }) as ViewResult;
+
+                // Assert
+                result.IsNotNull();
+                var model = result.Model as SearchModels;
+                Assert.IsTrue(model.Events.Any());
             }
         }
 
