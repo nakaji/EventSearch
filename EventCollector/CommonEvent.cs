@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EventData
 {
-    public class CommonEvent
+    public class CommonEvent:IComparable
     {
         public string Title { get; private set; }
         public DateTime? StartedAt { get; private set; }
@@ -38,6 +38,21 @@ namespace EventData
             OwnerNickname = ownerNickname;
             Url = url;
             EventUrl = eventUrl;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (!(obj is CommonEvent)) throw new ArgumentException();
+
+            var e = obj as CommonEvent;
+
+            if (e.StartedAt == null) return -1;
+            if (StartedAt == null) return 1;
+
+            if (StartedAt.Value.Ticks < e.StartedAt.Value.Ticks) return -1;
+            if (StartedAt.Value.Ticks > e.StartedAt.Value.Ticks) return 1;
+
+            return 0;
         }
     }
 }

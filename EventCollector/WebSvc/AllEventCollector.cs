@@ -29,6 +29,7 @@ namespace EventCollector.WebSvc
 
             _collectors.AsParallel().ForAll(x=>events.AddRange(x.GetEvents(ym, keyword)));
 
+            events.Sort();
             return events;
         }
     }

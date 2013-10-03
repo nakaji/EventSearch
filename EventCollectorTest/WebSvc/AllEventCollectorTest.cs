@@ -14,24 +14,21 @@ namespace EventCollectorTest.WebSvc
     public class AllEventCollectorTest
     {
         private MockFactory _factory;
+        private AllEventCollector sut;
 
         [TestInitialize]
         public void SetUp()
         {
             _factory = new MockFactory();
-        }
 
-        [TestMethod]
-        public void 全てのサービスからイベント取得()
-        {
             List<CommonEvent> mockResult;
 
             var mock1 = _factory.CreateMock<BaseEventCollector>();
             mockResult = new List<CommonEvent>();
             mockResult.AddRange(new[]
                       {
-                          new CommonEvent("Mock1Event1", null, null, "", "", "", "", "", ""),
-                          new CommonEvent("Mock1Event2", null, null, "", "", "", "", "", ""),
+                          new CommonEvent("Mock1Event1", new DateTime(2013,10,15), null, "", "", "", "", "", ""),
+                          new CommonEvent("Mock1Event2", new DateTime(2013,10,1), null, "", "", "", "", "", ""),
                       });
             mock1.Expects.One.MethodWith(x => x.GetEvents(201307, "松山")).WillReturn(mockResult);
 
@@ -39,17 +36,32 @@ namespace EventCollectorTest.WebSvc
             mockResult = new List<CommonEvent>();
             mockResult.AddRange(new[]
                       {
-                          new CommonEvent("Mock2Event1", null, null, "", "", "", "", "", ""),
-                          new CommonEvent("Mock2Event2", null, null, "", "", "", "", "", ""),
-                          new CommonEvent("Mock2Event3", null, null, "", "", "", "", "", ""),
+                          new CommonEvent("Mock2Event1", new DateTime(2013,10,8), null, "", "", "", "", "", ""),
+                          new CommonEvent("Mock2Event2", new DateTime(2013,10,30), null, "", "", "", "", "", ""),
+                          new CommonEvent("Mock2Event3", new DateTime(2013,10,25), null, "", "", "", "", "", ""),
                       });
             mock2.Expects.One.MethodWith(x => x.GetEvents(201307, "松山")).WillReturn(mockResult);
 
-            var sut = new AllEventCollector(new[] { mock1.MockObject, mock2.MockObject });
+            sut = new AllEventCollector(new[] { mock1.MockObject, mock2.MockObject });
+        }
 
+        [TestMethod]
+        public void 全てのサービスからイベント取得()
+        {
             var result = sut.GetEvents(201307, "松山");
 
             result.Count().Is(5);
+        }
+
+        [TestMethod]
+        public void 取得したイベントは昇順にソートされる()
+        {
+            var result = sut.GetEvents(201307, "松山");
+
+            (result[0].StartedAt.Value.Ticks <= result[1].StartedAt.Value.Ticks).IsTrue();
+            (result[1].StartedAt.Value.Ticks <= result[2].StartedAt.Value.Ticks).IsTrue();
+            (result[2].StartedAt.Value.Ticks <= result[3].StartedAt.Value.Ticks).IsTrue();
+            (result[3].StartedAt.Value.Ticks <= result[4].StartedAt.Value.Ticks).IsTrue();
         }
 
         [TestMethod]
