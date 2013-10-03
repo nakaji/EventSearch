@@ -3,28 +3,38 @@
     ViewBag.Title = "Home Page";
 }
 <h3>適当に検索してみて</h3>
-@using (Html.BeginForm("Index","Home",FormMethod.Get))
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
 {
-    @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset>
         <legend>ログイン フォーム</legend>
-        <ol>
-            <li>
+        <div class="row">
+            <div class="col-md-7">
                 @Html.LabelFor(x => x.Keyword)
                 @Html.TextBoxFor(x => x.Keyword)
-            </li>
-            <li>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.TextBoxFor(x => x.Year, new { @class = "text_year" })
                 @Html.LabelFor(x => x.Year)
-                @Html.TextBoxFor(x => x.Year)
-            </li>
-            <li>
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(x => x.Month, new { @class = "text_month" })
                 @Html.LabelFor(x => x.Month)
-                @Html.TextBoxFor(x => x.Month)
-            </li>
-        </ol>
-        <input type="submit" value="検索" />
+            </div>
+        </div>
+        <input class="btn col-md-offset-4" type="submit" value="検索" />
     </fieldset>
 }
-
+<div class="result">
+    @foreach (var e in Model.Events)
+    {
+        <div class="row result-row">
+            <div class="col-md-2">@e.StartedAt.Value.ToString("dd日 HH:mm") ~</div>
+            <div class="col-md-7"><a href="@e.EventUrl">@e.Title</a></div>
+            <div class="col-md-3">@e.Place</div>
+        </div>
+    }
+</div>
