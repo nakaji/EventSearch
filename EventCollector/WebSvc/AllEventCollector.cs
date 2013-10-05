@@ -20,14 +20,22 @@ namespace EventCollector.WebSvc
 
         public AllEventCollector(IEnumerable<BaseEventCollector> collectors)
         {
-            _collectors.AddRange( collectors);
+            _collectors.AddRange(collectors);
         }
 
         public override IList<CommonEvent> GetEvents(int ym, string keyword)
         {
             var events = new List<CommonEvent>();
 
-            _collectors.AsParallel().ForAll(x=>events.AddRange(x.GetEvents(ym, keyword)));
+            var lockObject = new object();
+
+            _collectors.AsParallel().ForAll(x =>
+            {
+                lock (lockObject)
+                {
+                    events.AddRange(x.GetEvents(ym, keyword));
+                }
+            });
 
             events.Sort();
             return events;
