@@ -25,29 +25,13 @@ namespace EventCollector.WebSvc
         {
             var root = DynamicJson.Parse(str);
 
-            var tst = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
             var events = new List<CommonEvent>();
-            DateTime japaneseTime;
             foreach (var item in root)
             {
-                DateTime? startedAt = null;
-                var dateTime = ParseDateTime(item.@event.starts_at);
-                if (dateTime != null)
-                {
-                    japaneseTime = TimeZoneInfo.ConvertTimeFromUtc(ParseDateTime(item.@event.starts_at).ToUniversalTime(), tst);
-                    startedAt = japaneseTime;
-                }
-                DateTime? endsAt = null;
-                dateTime = ParseDateTime(item.@event.starts_at);
-                if (dateTime != null)
-                {
-                    japaneseTime = TimeZoneInfo.ConvertTimeFromUtc(ParseDateTime(item.@event.ends_at).ToUniversalTime(), tst);
-                    endsAt = japaneseTime;
-                }
                 events.Add(new CommonEvent(
                     item.@event.title,
-                    startedAt,
-                    endsAt,
+                    Utils.GetJapaneseTime(ParseDateTime(item.@event.starts_at)),
+                    Utils.GetJapaneseTime(ParseDateTime(item.@event.ends_at)),
                     item.@event.address,
                     item.@event.venue_name,
                     item.@event.description,

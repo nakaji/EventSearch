@@ -58,6 +58,7 @@
     <Compile Include="CommonEventTest.cs" />
     <Compile Include="NMock3\NMockTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UtilsTest.cs" />
     <Compile Include="WebDownloaderTest.cs">
       <SubType>Code</SubType>
     </Compile>
