@@ -24,6 +24,8 @@ namespace EventCollectorTest.WebSvc
 
             events.Count().Is(3);
             events.ToArray()[0].Title.Is("情報交流会");
+            events.ToArray()[0].StartedAt.Value.ToString("dd日 HH:mm").Is("21日 17:30");
+            events.ToArray()[0].EndedAt.Value.ToString("dd日 HH:mm").Is("21日 20:00");
             events.ToArray()[2].Title.Is("Webクリエイターに足りない、本当のSEOスキル in 松山")
             ;
         }

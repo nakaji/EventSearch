@@ -32,7 +32,7 @@
     @foreach (var e in Model.Events)
     {
         <div class="row result-row">
-            <div class="col-md-2">@e.StartedAt.Value.ToString("dd日 HH:mm") ~</div>
+            <div class="col-md-2">@e.StartedAt.Value.ToString("dd日 HH:mm")</div>
             <div class="col-md-7"><a href="@e.EventUrl">@e.Title</a></div>
             <div class="col-md-3">@e.Place</div>
         </div>

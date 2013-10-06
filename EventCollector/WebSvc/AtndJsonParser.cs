@@ -14,10 +14,22 @@ namespace EventCollector.WebSvc
             var root = JsonConvert.DeserializeObject<Rootobject>(str);
 
             var events = new List<CommonEvent>();
+            var tst = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
+            DateTime japaneseTime;
             foreach (var item in root.events)
             {
-                DateTime? startedAt = item.started_at;
-                DateTime? endedAt = item.ended_at;
+                DateTime? startedAt = null;
+                if (item.started_at != null)
+                {
+                    japaneseTime = TimeZoneInfo.ConvertTimeFromUtc(item.started_at.Value.ToUniversalTime(), tst);
+                    startedAt = japaneseTime;
+                }
+                DateTime? endedAt = null;
+                if (item.ended_at != null)
+                {
+                    japaneseTime = TimeZoneInfo.ConvertTimeFromUtc(item.ended_at.Value.ToUniversalTime(), tst);
+                    endedAt = japaneseTime;
+                }
 
                 events.Add(new CommonEvent(item.title, startedAt, endedAt,
                                      item.address, item.place, item.description, item.owner_nickname, item.url,
