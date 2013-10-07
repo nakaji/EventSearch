@@ -56,6 +56,8 @@
     <Compile Include="WebSvc\AtndJsonParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebSvc\BaseEventCollector.cs" />
+    <Compile Include="WebSvc\EventAtndEventCollector.cs" />
+    <Compile Include="WebSvc\EventAtndJsonParser.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

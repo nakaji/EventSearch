@@ -67,6 +67,8 @@
     <Compile Include="WebSvc\AtndJsonParserTest.cs" />
     <Compile Include="WebSvc\DoorkeeperJsonParserTest.cs" />
     <Compile Include="WebSvc\DoorkeeperEventCollectorTest.cs" />
+    <Compile Include="WebSvc\EventAtndEventCollectorTest.cs" />
+    <Compile Include="WebSvc\EventAtndJsonParserTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EventCollector\EventCollector.csproj">
@@ -81,6 +83,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="TestData\Doorkeeper-松山-201307.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\EventATND-松山-201307.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

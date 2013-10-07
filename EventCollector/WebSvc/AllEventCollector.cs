@@ -15,6 +15,7 @@ namespace EventCollector.WebSvc
         public AllEventCollector()
         {
             _collectors.Add(new AtndEventCollector());
+            _collectors.Add(new EventAtndEventCollector());
             _collectors.Add(new DoorkeeperEventCollector());
         }
 
