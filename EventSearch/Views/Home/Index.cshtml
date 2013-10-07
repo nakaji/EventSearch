@@ -9,6 +9,11 @@
 
     <fieldset>
         <legend>ログイン フォーム</legend>
+        <div class="error-field">
+            @Html.ValidationMessageFor(x => x.Keyword)
+            @Html.ValidationMessageFor(x => x.Year)
+            @Html.ValidationMessageFor(x => x.Month)
+        </div>
         <div class="row">
             <div class="col-md-7">
                 @Html.LabelFor(x => x.Keyword)

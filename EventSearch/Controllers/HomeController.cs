@@ -19,17 +19,17 @@ namespace EventSearch.Controllers
             {
                 model.Year = DateTime.Now.Year;
                 model.Month = DateTime.Now.Month;
+                ModelState.Clear();
                 return View(model);
             }
 
-            var eventCollector = new AllEventCollector();
-            if (model.Year < 2010 || model.Year > 2020) model.Year = DateTime.Now.Year;
-            if (model.Month < 1 || model.Month > 12) model.Month = DateTime.Now.Month;
-
-            var collector = new AllEventCollector();
-            var evemts = collector.GetEvents(model.Year * 100 + model.Month, model.Keyword);
-            model.Events.AddRange(evemts);
-
+            TryValidateModel(model);
+            if (ModelState.IsValid){
+                var collector = new AllEventCollector();
+                var evemts = collector.GetEvents(model.Year * 100 + model.Month, model.Keyword);
+                model.Events.AddRange(evemts);
+            }
+            
             return View(model);
         }
 

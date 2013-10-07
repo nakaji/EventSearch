@@ -40,34 +40,45 @@ namespace EventSearch.Tests.Controllers
             }
 
             [TestMethod]
-            public void 存在しない年が指定された場合は今日の年を使用する()
+            public void 存在しない年が指定された場合はエラー()
             {
-                // Act
-                var result = _sut.Index(new SearchModels() { Year = 2021 }) as ViewResult;
+                _sut.ControllerContext = new ControllerContext();
 
+                // Act
+                var result = _sut.Index(new SearchModels() { Year = 2021, Month = 10, Keyword = "hoge" }) as ViewResult;
+                
                 // Assert
                 result.IsNotNull();
                 var model = result.Model as SearchModels;
+
                 model.IsNotNull();
-                model.Year.Is(DateTime.Now.Year);
+                _sut.ModelState.IsValidField("Year").IsFalse();
+                _sut.ModelState.IsValidField("Month").IsTrue();
+                _sut.ModelState.IsValidField("Keyword").IsTrue();
             }
 
             [TestMethod]
-            public void 存在しない月が指定された場合は今日の月を使用する()
+            public void 存在しない月が指定された場合はエラー()
             {
+                _sut.ControllerContext = new ControllerContext();
+
                 // Act
-                var result = _sut.Index(new SearchModels() { Month = 13 }) as ViewResult;
+                var result = _sut.Index(new SearchModels() { Year = 2013, Month = 13, Keyword = "hoge" }) as ViewResult;
 
                 // Assert
                 result.IsNotNull();
                 var model = result.Model as SearchModels;
                 model.IsNotNull();
-                model.Month.Is(DateTime.Now.Month);
+                _sut.ModelState.IsValidField("Year").IsTrue();
+                _sut.ModelState.IsValidField("Month").IsFalse();
+                _sut.ModelState.IsValidField("Keyword").IsTrue();
             }
 
             [TestMethod]
             public void イベントの検索結果をモデルに含めて返却する()
             {
+                _sut.ControllerContext = new ControllerContext();
+                
                 // Act
                 var result = _sut.Index(new SearchModels() { Year = 2013, Month = 7, Keyword = "松山" }) as ViewResult;
 
