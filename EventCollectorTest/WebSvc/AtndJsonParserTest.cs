@@ -29,5 +29,15 @@ namespace EventCollectorTest.WebSvc
             events.ToArray()[2].Title.Is("Webクリエイターに足りない、本当のSEOスキル in 松山")
             ;
         }
+
+        [TestMethod]
+        public void 検索結果が0件の場合からのリストを返す()
+        {
+            var str = File.ReadAllText(@"TestData\ATND-NO_DATA.json");
+
+            var events = AtndJsonParser.Parse(str);
+
+            events.Count().Is(0);
+        }
     }
 }

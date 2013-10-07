@@ -26,7 +26,16 @@ namespace EventCollectorTest.WebSvc
             events.ToArray()[0].Title.Is("Agile459 アジャイルサムライ読書会松山道場 #15 『ラストサムライ』");
             events.ToArray()[0].StartedAt.Value.ToString("dd日 HH:mm").Is("13日 15:00");
             events.ToArray()[0].EndedAt.Value.ToString("dd日 HH:mm").Is("13日 17:00");
-            ;
+        }
+
+        [TestMethod]
+        public void 検索結果が0件の場合からのリストを返す()
+        {
+            var str = File.ReadAllText(@"TestData\Doorkeeper-NO_DATA.json");
+
+            var events = DoorkeeperJsonParser.Parse(str);
+
+            events.Count().Is(0);
         }
     }
 }

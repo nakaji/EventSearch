@@ -21,8 +21,10 @@ namespace EventCollector.WebSvc
         private static IList<CommonEvent> GetEventList(string str)
         {
             var root = DynamicJson.Parse(str);
-
             var events = new List<CommonEvent>();
+
+            if (root.results_returned == 0) return events;
+
             foreach (var item in root.events[0].@event)
             {
                 events.Add(new CommonEvent(
