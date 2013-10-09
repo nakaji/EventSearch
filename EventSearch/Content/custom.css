@@ -1,4 +1,13 @@
-﻿body fieldset .text_year {
+﻿html {
+  background-color: #bee399;
+}
+body #body {
+  background-color: #e5f9d1;
+}
+body footer {
+  background-color: #bee399;
+}
+body fieldset .text_year {
   width: 100px;
 }
 body fieldset .text_month {
@@ -9,4 +18,7 @@ body .result {
 }
 body .result .result-row {
   border-bottom: 1px dotted;
+}
+body .result :hover {
+  background-color: #80c937;
 }
