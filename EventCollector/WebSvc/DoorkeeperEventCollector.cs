@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using EventData;
 
@@ -17,10 +18,15 @@ namespace EventCollector.WebSvc
             var apiUrl = string.Format(BaseUrl + "&since={0}&until={1}&q={2}", since.ToString("O"), until.ToString("O"), keyword);
 
             var downloader = new WebDownloader {Encoding = Encoding.UTF8};
-
-            var str = downloader.DownloadString(apiUrl);
-
-            return DoorkeeperJsonParser.Parse(str);
+            try
+            {
+                var str = downloader.DownloadString(apiUrl);
+                return DoorkeeperJsonParser.Parse(str);
+            }
+            catch (WebException e)
+            {
+                return new List<CommonEvent>();
+            }
         }
     }
 }
