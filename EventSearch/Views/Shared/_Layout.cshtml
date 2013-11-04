@@ -17,6 +17,16 @@
                 <div class="float-left">
                     <p class="site-title">@Html.ActionLink("イベント検索", "Index", "Home")</p>
                 </div>
+                <div class="float-right">
+                    @if (Session["access_token"] == null)
+                    {
+                        <p>@Html.ActionLink("ログイン", "Login", "Home")</p>
+                    }
+                    else
+                    {
+                        <p>@Html.ActionLink("ログアウト", "Logout", "Home")</p>
+                    }
+                </div>
             </div>
         </header>
         <div id="body">
