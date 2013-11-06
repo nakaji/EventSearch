@@ -49,7 +49,8 @@ namespace EventSearch.Controllers
         {
             var clientId = ConfigurationManager.AppSettings.Get("client_id");
             var redirectUri = ConfigurationManager.AppSettings.Get("redirect_uri");
-            var scope = HttpUtility.UrlEncode("https://www.googleapis.com/auth/calendar");
+            var scope = HttpUtility.UrlEncode("https://www.googleapis.com/auth/calendar") + "+" +
+                        HttpUtility.UrlEncode("https://www.googleapis.com/auth/userinfo.profile");
 
             var addr = string.Format("https://accounts.google.com/o/oauth2/auth?client_id={0}&response_type=code&redirect_uri={1}&scope={2}",
                                     clientId,
@@ -71,26 +72,13 @@ namespace EventSearch.Controllers
 
         public ActionResult Auth(string code)
         {
-            var clientId = ConfigurationManager.AppSettings.Get("client_id");
-            var clientSecret = ConfigurationManager.AppSettings.Get("client_secret");
-            var redirectUri = ConfigurationManager.AppSettings.Get("redirect_uri");
+            var apis = new GoogleApis();
 
-            
-            var cl = new WebClient();
-            cl.Encoding = Encoding.UTF8;
-            cl.Headers["content-type"] = "application/x-www-form-urlencoded";
-            var query = String.Format("code={0}&client_id={1}&client_secret={2}&redirect_uri={3}&grant_type={4}",
-                code,
-                clientId,
-                "sHeOw4iYzvPaQbU8qSkotY0y",
-                    "http://localhost:51661/Home/Auth",
-                "authorization_code"
-                );
-            var result = cl.UploadString("https://accounts.google.com/o/oauth2/token", "POST", query);
+            apis.Auth(code);
+            Session.Add("access_token", apis.AccessToken);
 
-            var account = DynamicJson.Parse(result);
-
-            Session.Add("access_token", account.access_token);
+            var userInfo = apis.GetUserInfo();
+            Session.Add("user_info", userInfo);
 
             Response.Redirect("~/");
             return null;
