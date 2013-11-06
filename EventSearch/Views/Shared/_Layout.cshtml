@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using EventSearch.Models
+<!DOCTYPE html>
 <html lang="ja">
     <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -24,7 +25,13 @@
                     }
                     else
                     {
-                        <p>@Html.ActionLink("ログアウト", "Logout", "Home")</p>
+                        var userInfo = (UserInfo)Session["user_info"];
+                        <p>
+                            @userInfo.GivenName さん
+                            <img src="@userInfo.Picture" width="32" height="32" />
+                            @Html.ActionLink("ログアウト", "Logout", "Home")
+                        </p>
+
                     }
                 </div>
             </div>

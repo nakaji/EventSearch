@@ -49,7 +49,8 @@ namespace EventSearch.Controllers
         {
             var clientId = ConfigurationManager.AppSettings.Get("client_id");
             var redirectUri = ConfigurationManager.AppSettings.Get("redirect_uri");
-            var scope = HttpUtility.UrlEncode("https://www.googleapis.com/auth/calendar");
+            var scope = HttpUtility.UrlEncode("https://www.googleapis.com/auth/calendar") + "+" +
+                        HttpUtility.UrlEncode("https://www.googleapis.com/auth/userinfo.profile");
 
             var addr = string.Format("https://accounts.google.com/o/oauth2/auth?client_id={0}&response_type=code&redirect_uri={1}&scope={2}",
                                     clientId,
@@ -75,7 +76,6 @@ namespace EventSearch.Controllers
             var clientSecret = ConfigurationManager.AppSettings.Get("client_secret");
             var redirectUri = ConfigurationManager.AppSettings.Get("redirect_uri");
 
-            
             var cl = new WebClient();
             cl.Encoding = Encoding.UTF8;
             cl.Headers["content-type"] = "application/x-www-form-urlencoded";
@@ -83,7 +83,7 @@ namespace EventSearch.Controllers
                 code,
                 clientId,
                 "sHeOw4iYzvPaQbU8qSkotY0y",
-                    "http://localhost:51661/Home/Auth",
+                "http://localhost:51661/Home/Auth",
                 "authorization_code"
                 );
             var result = cl.UploadString("https://accounts.google.com/o/oauth2/token", "POST", query);
@@ -91,6 +91,10 @@ namespace EventSearch.Controllers
             var account = DynamicJson.Parse(result);
 
             Session.Add("access_token", account.access_token);
+
+            var apis = new GoogleApis(account.access_token);
+            var userInfo = apis.GetUserInfo();
+            Session.Add("user_info", userInfo);
 
             Response.Redirect("~/");
             return null;
