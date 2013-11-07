@@ -19,7 +19,7 @@ namespace EventCollector.WebSvc
                 DateTime? startedAt = Utils.GetJapaneseTime(item.started_at);
                 DateTime? endedAt = Utils.GetJapaneseTime(item.ended_at);
 
-                events.Add(new CommonEvent(item.title, startedAt, endedAt,
+                events.Add(new CommonEvent(CommonEvent.WebSvcType.Atnd, item.event_id, item.title, startedAt, endedAt,
                                      item.address, item.place, item.description, item.owner_nickname, item.url,
                                      item.event_url));
             }
@@ -42,7 +42,7 @@ namespace EventCollector.WebSvc
             public string event_url { get; set; }
             public float? lon { get; set; }
             public string description { get; set; }
-            public int event_id { get; set; }
+            public string event_id { get; set; }
             public DateTime? updated_at { get; set; }
             public string title { get; set; }
             public string hash_tag { get; set; }

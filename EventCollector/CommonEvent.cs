@@ -7,6 +7,14 @@ namespace EventData
 {
     public class CommonEvent:IComparable
     {
+        public enum WebSvcType
+        {
+            Atnd,
+            EventAtnd,
+            DoorKeeper
+        }
+        public WebSvcType WebSvc { get; private set; }
+        public string Id { get; private set; }
         public string Title { get; private set; }
         public DateTime? StartedAt { get; private set; }
         public DateTime? EndedAt { get; private set; }
@@ -18,6 +26,8 @@ namespace EventData
         public string EventUrl { get; private set; }
 
         public CommonEvent(
+            WebSvcType webSvc,
+            string id,
             string title,
             DateTime? startedAt,
             DateTime? endedAt,
@@ -29,6 +39,8 @@ namespace EventData
             string eventUrl
             )
         {
+            WebSvc = webSvc;
+            Id = id;
             Title = title;
             StartedAt = startedAt;
             EndedAt = endedAt;

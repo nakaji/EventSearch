@@ -27,8 +27,8 @@ namespace EventCollectorTest.WebSvc
             mockResult = new List<CommonEvent>();
             mockResult.AddRange(new[]
                       {
-                          new CommonEvent("Mock1Event1", new DateTime(2013,10,15), null, "", "", "", "", "", ""),
-                          new CommonEvent("Mock1Event2", new DateTime(2013,10,1), null, "", "", "", "", "", ""),
+                          new CommonEvent(0, "100", "Mock1Event1", new DateTime(2013,10,15), null, "", "", "", "", "", ""),
+                          new CommonEvent(0, "100", "Mock1Event2", new DateTime(2013,10,1), null, "", "", "", "", "", ""),
                       });
             mock1.Expects.One.MethodWith(x => x.GetEvents(201307, "松山")).WillReturn(mockResult);
 
@@ -36,9 +36,9 @@ namespace EventCollectorTest.WebSvc
             mockResult = new List<CommonEvent>();
             mockResult.AddRange(new[]
                       {
-                          new CommonEvent("Mock2Event1", new DateTime(2013,10,8), null, "", "", "", "", "", ""),
-                          new CommonEvent("Mock2Event2", new DateTime(2013,10,30), null, "", "", "", "", "", ""),
-                          new CommonEvent("Mock2Event3", new DateTime(2013,10,25), null, "", "", "", "", "", ""),
+                          new CommonEvent(0, "100", "Mock2Event1", new DateTime(2013,10,8), null, "", "", "", "", "", ""),
+                          new CommonEvent(0, "100", "Mock2Event2", new DateTime(2013,10,30), null, "", "", "", "", "", ""),
+                          new CommonEvent(0, "100", "Mock2Event3", new DateTime(2013,10,25), null, "", "", "", "", "", ""),
                       });
             mock2.Expects.One.MethodWith(x => x.GetEvents(201307, "松山")).WillReturn(mockResult);
 
@@ -72,8 +72,8 @@ namespace EventCollectorTest.WebSvc
             var result = new List<CommonEvent>();
             result.AddRange(new[]
                       {
-                          new CommonEvent("A", null, null, "", "", "", "", "", ""),
-                          new CommonEvent("A", null, null, "", "", "", "", "", ""),
+                          new CommonEvent(0, "100", "A", null, null, "", "", "", "", "", ""),
+                          new CommonEvent(0, "100", "A", null, null, "", "", "", "", "", ""),
                       });
 
 

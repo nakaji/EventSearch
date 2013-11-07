@@ -31,6 +31,8 @@ namespace EventCollector.WebSvc
             foreach (var item in root)
             {
                 events.Add(new CommonEvent(
+                    CommonEvent.WebSvcType.DoorKeeper,
+                    string.Format("{0:0}", item.@event.id),
                     item.@event.title,
                     Utils.GetJapaneseTime(ParseDateTime(item.@event.starts_at)),
                     Utils.GetJapaneseTime(ParseDateTime(item.@event.ends_at)),
