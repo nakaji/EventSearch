@@ -28,6 +28,8 @@ namespace EventCollector.WebSvc
             foreach (var item in root.events[0].@event)
             {
                 events.Add(new CommonEvent(
+                    CommonEvent.WebSvcType.EventAtnd,
+                    item.event_id,
                     item.title,
                     Utils.GetJapaneseTime(ParseDateTime(item.started_at)),
                     Utils.GetJapaneseTime(ParseDateTime(item.ended_at)),

@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls.WebParts;
 using Codeplex.Data;
 using EventCollector.WebSvc;
+using EventData;
 using EventSearch.Models;
 
 namespace EventSearch.Controllers
@@ -43,6 +44,26 @@ namespace EventSearch.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult AddCalendar(CommonEvent.WebSvcType webSvc, string id, string title, DateTime startedAt,
+            DateTime endedAt, string address, string place, string ownerNickname, string url, string eventUrl)
+        {
+            var description = string.Format("{0}\n" + "日時：{1}\n" + "住所：{2} {3}", eventUrl, startedAt.ToString("yyyy/MM/dd hh:mm"), address, place);
+            var e = new CommonEvent(webSvc, id, title, startedAt, endedAt, address, place, description, ownerNickname,
+                url, eventUrl);
+            return View(e);
+        }
+
+        [HttpPost]
+        public ActionResult AddCalendar(CommonEvent e)
+        {
+            var api = new GoogleApis(Session["access_token"].ToString());
+            api.AddCalendar(e);
+
+            Response.Redirect("~/");
+            return null;
         }
 
         public ActionResult Login()

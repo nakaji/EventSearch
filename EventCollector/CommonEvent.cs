@@ -1,23 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
 namespace EventData
 {
-    public class CommonEvent:IComparable
+    public class CommonEvent : IComparable
     {
-        public string Title { get; private set; }
-        public DateTime? StartedAt { get; private set; }
-        public DateTime? EndedAt { get; private set; }
-        public string Address { get; private set; }
-        public string Place { get; private set; }
-        public string Description { get; private set; }
-        public string OwnerNickname { get; private set; }
-        public string Url { get; private set; }
-        public string EventUrl { get; private set; }
+        public enum WebSvcType
+        {
+            Atnd,
+            EventAtnd,
+            DoorKeeper
+        }
+        public WebSvcType WebSvc { get; set; }
+        public string Id { get; set; }
+        [DisplayName("タイトル")]
+        public string Title { get; set; }
+        [DisplayName("開始")]
+        public DateTime? StartedAt { get; set; }
+        [DisplayName("終了")]
+        public DateTime? EndedAt { get; set; }
+        [DisplayName("住所")]
+        public string Address { get; set; }
+        [DisplayName("場所")]
+        public string Place { get; set; }
+        [DisplayName("説明")]
+        public string Description { get; set; }
+        public string OwnerNickname { get; set; }
+        public string Url { get; set; }
+        public string EventUrl { get; set; }
+
+        public CommonEvent()
+        {
+        }
 
         public CommonEvent(
+            WebSvcType webSvc,
+            string id,
             string title,
             DateTime? startedAt,
             DateTime? endedAt,
@@ -29,6 +50,8 @@ namespace EventData
             string eventUrl
             )
         {
+            WebSvc = webSvc;
+            Id = id;
             Title = title;
             StartedAt = startedAt;
             EndedAt = endedAt;

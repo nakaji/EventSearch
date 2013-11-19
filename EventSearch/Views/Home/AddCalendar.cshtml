@@ -1,0 +1,64 @@
+﻿@model EventData.CommonEvent
+
+@{
+    ViewBag.Title = "GooleCalendarに登録";
+}
+
+<h2>AddCalendar</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>CommonEvent</legend>
+
+        <table>
+            <tr>
+                <th>
+                    @Html.LabelFor(model => model.Title)
+                </th>
+                <td>
+                    @Html.EditorFor(model => model.Title)
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.LabelFor(model => model.StartedAt)
+                </th>
+                <td>
+                    @Html.EditorFor(model => model.StartedAt)
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.LabelFor(model => model.EndedAt)
+                </th>
+                <td>
+                    @Html.EditorFor(model => model.EndedAt)
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.LabelFor(model => model.Description)
+                </th>
+                <td>
+                    @Html.TextAreaFor(model => model.Description,new{rows="4"})
+                </td>
+            </tr>
+        </table>
+
+        <p>
+            <input type="submit" value="登録" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
