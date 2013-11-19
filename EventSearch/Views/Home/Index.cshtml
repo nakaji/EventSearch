@@ -8,7 +8,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>ログイン フォーム</legend>
+        <legend>検索フォーム</legend>
         <div class="error-field">
             @Html.ValidationMessageFor(x => x.Keyword)
             @Html.ValidationMessageFor(x => x.Year)
@@ -36,10 +36,27 @@
 <div class="result">
     @foreach (var e in Model.Events)
     {
-        <div class="row result-row">
-            <div class="col-md-2">@e.StartedAt.Value.ToString("dd日 HH:mm")</div>
-            <div class="col-md-7"><a href="@e.EventUrl"><a href="@e.EventUrl">@e.Title</a></div>
-            <div class="col-md-3">@e.Place</div>
-        </div>
+        using (Html.BeginForm("AddCalendar", "Home", FormMethod.Get))
+        {
+            <div class="row result-row">
+                <div class="col-md-2">@e.StartedAt.Value.ToString("dd日 HH:mm")</div>
+                <div class="col-md-6"><a href="@e.EventUrl"><a href="@e.EventUrl">@e.Title</a></div>
+                <div class="col-md-3">@e.Place</div>
+                @if (Session["access_token"] != null)
+                {
+                    <div class="col-md-1"><input class="btn col-md-offset-4" type="submit" value="＋" /></div>
+                }
+                <input type="hidden" name="WebSvc" value="@e.WebSvc" />
+                <input type="hidden" name="Id" value="@e.Id" />
+                <input type="hidden" name="Title" value="@e.Title" />
+                <input type="hidden" name="StartedAt" value="@e.StartedAt" />
+                <input type="hidden" name="EndedAt" value="@e.EndedAt" />
+                <input type="hidden" name="Address" value="@e.Address" />
+                <input type="hidden" name="Place" value="@e.Place" />
+                <input type="hidden" name="OwnerNickname" value="@e.OwnerNickname" />
+                <input type="hidden" name="Url" value="@e.Url" />
+                <input type="hidden" name="EventUrl" value="@e.EventUrl" />
+            </div>
+        }
     }
 </div>

@@ -5,7 +5,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
+using System.Xml;
 using Codeplex.Data;
+using EventData;
 
 namespace EventSearch.Models
 {
@@ -56,6 +58,28 @@ namespace EventSearch.Models
 
                 return new UserInfo(userInfo.id, userInfo.name, userInfo.given_name, userInfo.family_name, userInfo.picture);
             }
+        }
+
+        public void AddCalendar(CommonEvent e)
+        {
+            var cl = new WebClient();
+            cl.Encoding = Encoding.UTF8;
+            cl.Headers.Add("Authorization", "Bearer " + AccessToken);
+            cl.Headers.Add("content-type", "application/json");
+
+            var start = XmlConvert.ToString(e.StartedAt.Value.ToUniversalTime(), XmlDateTimeSerializationMode.Utc);
+            var end = XmlConvert.ToString(e.EndedAt.Value.ToUniversalTime(), XmlDateTimeSerializationMode.Utc);
+            var query = DynamicJson.Serialize(
+                new
+                   {
+                       summary = e.Title,
+                       description = e.Description,
+                       location = e.Place,
+                       start = new { dateTime = start },
+                       end = new { dateTime = end },
+                   });
+
+            var result = cl.UploadString("https://www.googleapis.com/calendar/v3/calendars/8d01gr1a254upoumsr5ivo6oqc@group.calendar.google.com/events", "POST", query);
         }
     }
 }
