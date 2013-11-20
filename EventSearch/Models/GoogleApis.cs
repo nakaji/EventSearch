@@ -60,7 +60,7 @@ namespace EventSearch.Models
             }
         }
 
-        public void AddCalendar(CommonEvent e)
+        public void AddCalendar(string calendarId, CommonEvent e)
         {
             var cl = new WebClient();
             cl.Encoding = Encoding.UTF8;
@@ -78,8 +78,26 @@ namespace EventSearch.Models
                        start = new { dateTime = start },
                        end = new { dateTime = end },
                    });
+            var url = string.Format("https://www.googleapis.com/calendar/v3/calendars/{0}", calendarId);
+            var result = cl.UploadString(url + "/events", "POST", query);
+        }
 
-            var result = cl.UploadString("https://www.googleapis.com/calendar/v3/calendars/8d01gr1a254upoumsr5ivo6oqc@group.calendar.google.com/events", "POST", query);
+        public List<CalendarInfo> GetCalendarList()
+        {
+            using (var cl = new WebClient { Encoding = Encoding.UTF8 })
+            {
+                cl.Headers.Add("Authorization", "Bearer " + AccessToken);
+                var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList?minAccessRole=writer";
+                var result = DynamicJson.Parse(cl.DownloadString(url));
+
+                var list = new List<CalendarInfo>();
+                foreach (var cal in result.items)
+                {
+                    list.Add(new CalendarInfo() { Id = cal.id, Summary = cal.summary });
+                }
+
+                return list;
+            }
         }
     }
 }

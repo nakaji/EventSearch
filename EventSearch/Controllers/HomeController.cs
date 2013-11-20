@@ -51,16 +51,19 @@ namespace EventSearch.Controllers
             DateTime endedAt, string address, string place, string ownerNickname, string url, string eventUrl)
         {
             var description = string.Format("{0}\n" + "日時：{1}\n" + "住所：{2} {3}", eventUrl, startedAt.ToString("yyyy/MM/dd hh:mm"), address, place);
-            var e = new CommonEvent(webSvc, id, title, startedAt, endedAt, address, place, description, ownerNickname,
-                url, eventUrl);
-            return View(e);
+
+            var viewModel = new AddCalendarViewModel();
+            viewModel.Event = new CommonEvent(webSvc, id, title, startedAt, endedAt, address, place, description, ownerNickname, url, eventUrl);
+            var api = new GoogleApis(Session["access_token"].ToString());
+            viewModel.CalendarList = api.GetCalendarList();
+            return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult AddCalendar(CommonEvent e)
+        public ActionResult AddCalendar(AddCalendarViewModel model)
         {
             var api = new GoogleApis(Session["access_token"].ToString());
-            api.AddCalendar(e);
+            api.AddCalendar(model.CalendarId, model.Event);
 
             Response.Redirect("~/");
             return null;
