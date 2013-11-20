@@ -1,4 +1,4 @@
-﻿@model EventData.CommonEvent
+﻿@model EventSearch.Models.AddCalendarViewModel
 
 @{
     ViewBag.Title = "GooleCalendarに登録";
@@ -17,34 +17,42 @@
         <table>
             <tr>
                 <th>
-                    @Html.LabelFor(model => model.Title)
+                    @Html.LabelFor(model => model.Event.Title)
                 </th>
                 <td>
-                    @Html.EditorFor(model => model.Title)
+                    @Html.EditorFor(model => model.Event.Title)
                 </td>
             </tr>
             <tr>
                 <th>
-                    @Html.LabelFor(model => model.StartedAt)
+                    @Html.LabelFor(model => model.Event.StartedAt)
                 </th>
                 <td>
-                    @Html.EditorFor(model => model.StartedAt)
+                    @Html.EditorFor(model => model.Event.StartedAt)
                 </td>
             </tr>
             <tr>
                 <th>
-                    @Html.LabelFor(model => model.EndedAt)
+                    @Html.LabelFor(model => model.Event.EndedAt)
                 </th>
                 <td>
-                    @Html.EditorFor(model => model.EndedAt)
+                    @Html.EditorFor(model => model.Event.EndedAt)
                 </td>
             </tr>
             <tr>
                 <th>
-                    @Html.LabelFor(model => model.Description)
+                    @Html.LabelFor(model => model.CalendarList)
                 </th>
                 <td>
-                    @Html.TextAreaFor(model => model.Description,new{rows="4"})
+                    @Html.DropDownListFor(model => model.CalendarId, Model.CalendarList.Select(x => new SelectListItem() { Value = x.Id, Text = x.Summary }))
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.LabelFor(model => model.Event.Description)
+                </th>
+                <td>
+                    @Html.TextAreaFor(model => model.Event.Description, new { rows = "4" })
                 </td>
             </tr>
         </table>
