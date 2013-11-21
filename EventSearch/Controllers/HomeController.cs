@@ -58,8 +58,7 @@ namespace EventSearch.Controllers
             var api = new GoogleApis(Session["access_token"].ToString());
             api.AddEvent(model.CalendarId, model.Event);
 
-            Response.Redirect("~/");
-            return null;
+            return Redirect("~/");
         }
 
         public ActionResult Login()
@@ -75,16 +74,14 @@ namespace EventSearch.Controllers
                                     scope
                                 );
 
-            Response.Redirect(addr);
-            return null;
+            return Redirect(addr);
         }
 
         public ActionResult Logout()
         {
             Session["access_token"] = null;
 
-            Response.Redirect("~/");
-            return null;
+            return Redirect("~/");
         }
 
         public ActionResult Auth(string code)
@@ -97,8 +94,7 @@ namespace EventSearch.Controllers
             var userInfo = apis.GetUserInfo();
             Session.Add("user_info", userInfo);
 
-            Response.Redirect("~/");
-            return null;
+            return Redirect("~/");
         }
     }
 }
