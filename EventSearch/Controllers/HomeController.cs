@@ -39,13 +39,6 @@ namespace EventSearch.Controllers
             return View(model);
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
         [HttpGet]
         public ActionResult AddEvent(CommonEvent.WebSvcType webSvc, string id, string title, DateTime startedAt,
             DateTime endedAt, string address, string place, string ownerNickname, string url, string eventUrl)
