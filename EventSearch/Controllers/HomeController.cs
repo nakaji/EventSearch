@@ -47,7 +47,7 @@ namespace EventSearch.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddCalendar(CommonEvent.WebSvcType webSvc, string id, string title, DateTime startedAt,
+        public ActionResult AddEvent(CommonEvent.WebSvcType webSvc, string id, string title, DateTime startedAt,
             DateTime endedAt, string address, string place, string ownerNickname, string url, string eventUrl)
         {
             var description = string.Format("{0}\n" + "日時：{1}\n" + "住所：{2} {3}", eventUrl, startedAt.ToString("yyyy/MM/dd hh:mm"), address, place);
@@ -60,10 +60,10 @@ namespace EventSearch.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddCalendar(AddCalendarViewModel model)
+        public ActionResult AddEvent(AddCalendarViewModel model)
         {
             var api = new GoogleApis(Session["access_token"].ToString());
-            api.AddCalendar(model.CalendarId, model.Event);
+            api.AddEvent(model.CalendarId, model.Event);
 
             Response.Redirect("~/");
             return null;

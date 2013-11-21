@@ -60,7 +60,7 @@ namespace EventSearch.Models
             }
         }
 
-        public void AddCalendar(string calendarId, CommonEvent e)
+        public void AddEvent(string calendarId, CommonEvent e)
         {
             var cl = new WebClient();
             cl.Encoding = Encoding.UTF8;
