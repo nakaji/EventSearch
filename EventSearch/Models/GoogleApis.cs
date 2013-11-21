@@ -30,17 +30,17 @@ namespace EventSearch.Models
             var clientSecret = ConfigurationManager.AppSettings.Get("client_secret");
             var redirectUri = ConfigurationManager.AppSettings.Get("redirect_uri");
 
-            using (var cl = new WebClient())
+            var query = String.Format("code={0}&client_id={1}&client_secret={2}&redirect_uri={3}&grant_type={4}",
+                code,
+                clientId,
+                clientSecret,
+                redirectUri,
+                "authorization_code"
+                );
+
+            using (var cl = new WebClient { Encoding = Encoding.UTF8 })
             {
-                cl.Encoding = Encoding.UTF8;
                 cl.Headers["content-type"] = "application/x-www-form-urlencoded";
-                var query = String.Format("code={0}&client_id={1}&client_secret={2}&redirect_uri={3}&grant_type={4}",
-                    code,
-                    clientId,
-                    clientSecret,
-                    redirectUri,
-                    "authorization_code"
-                    );
                 var result = cl.UploadString("https://accounts.google.com/o/oauth2/token", "POST", query);
                 var account = DynamicJson.Parse(result);
 
@@ -50,9 +50,10 @@ namespace EventSearch.Models
 
         public UserInfo GetUserInfo()
         {
+            var url = String.Format("https://www.googleapis.com/oauth2/v1/userinfo?access_token={0}", AccessToken);
+
             using (var cl = new WebClient { Encoding = Encoding.UTF8 })
             {
-                var url = String.Format("https://www.googleapis.com/oauth2/v1/userinfo?access_token={0}", AccessToken);
                 var result = cl.DownloadString(url);
                 var userInfo = DynamicJson.Parse(result);
 
@@ -60,13 +61,8 @@ namespace EventSearch.Models
             }
         }
 
-        public void AddCalendar(string calendarId, CommonEvent e)
+        public void AddEvent(string calendarId, CommonEvent e)
         {
-            var cl = new WebClient();
-            cl.Encoding = Encoding.UTF8;
-            cl.Headers.Add("Authorization", "Bearer " + AccessToken);
-            cl.Headers.Add("content-type", "application/json");
-
             var start = XmlConvert.ToString(e.StartedAt.Value.ToUniversalTime(), XmlDateTimeSerializationMode.Utc);
             var end = XmlConvert.ToString(e.EndedAt.Value.ToUniversalTime(), XmlDateTimeSerializationMode.Utc);
             var query = DynamicJson.Serialize(
@@ -79,15 +75,23 @@ namespace EventSearch.Models
                        end = new { dateTime = end },
                    });
             var url = string.Format("https://www.googleapis.com/calendar/v3/calendars/{0}", calendarId);
-            var result = cl.UploadString(url + "/events", "POST", query);
+
+            using (var cl = new WebClient { Encoding = Encoding.UTF8 })
+            {
+                cl.Headers.Add("Authorization", "Bearer " + AccessToken);
+                cl.Headers.Add("content-type", "application/json");
+
+                cl.UploadString(url + "/events", "POST", query);
+            }
         }
 
         public List<CalendarInfo> GetCalendarList()
         {
+            const string url = "https://www.googleapis.com/calendar/v3/users/me/calendarList?minAccessRole=writer";
+
             using (var cl = new WebClient { Encoding = Encoding.UTF8 })
             {
                 cl.Headers.Add("Authorization", "Bearer " + AccessToken);
-                var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList?minAccessRole=writer";
                 var result = DynamicJson.Parse(cl.DownloadString(url));
 
                 var list = new List<CalendarInfo>();

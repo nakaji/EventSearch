@@ -21,7 +21,7 @@
                 <div class="float-right">
                     @if (Session["access_token"] == null)
                     {
-                        <p>@Html.ActionLink("ログイン", "Login", "Home")</p>
+                        <p>@Html.ActionLink("ログイン", "Login", "Auth")</p>
                     }
                     else
                     {
@@ -29,7 +29,7 @@
                         <p>
                             @userInfo.GivenName さん
                             <img src="@userInfo.Picture" width="32" height="32" />
-                            @Html.ActionLink("ログアウト", "Logout", "Home")
+                            @Html.ActionLink("ログアウト", "Logout", "Auth")
                         </p>
 
                     }

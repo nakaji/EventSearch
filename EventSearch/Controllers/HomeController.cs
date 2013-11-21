@@ -39,15 +39,8 @@ namespace EventSearch.Controllers
             return View(model);
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
         [HttpGet]
-        public ActionResult AddCalendar(CommonEvent.WebSvcType webSvc, string id, string title, DateTime startedAt,
+        public ActionResult AddEvent(CommonEvent.WebSvcType webSvc, string id, string title, DateTime startedAt,
             DateTime endedAt, string address, string place, string ownerNickname, string url, string eventUrl)
         {
             var description = string.Format("{0}\n" + "日時：{1}\n" + "住所：{2} {3}", eventUrl, startedAt.ToString("yyyy/MM/dd hh:mm"), address, place);
@@ -60,52 +53,12 @@ namespace EventSearch.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddCalendar(AddCalendarViewModel model)
+        public ActionResult AddEvent(AddCalendarViewModel model)
         {
             var api = new GoogleApis(Session["access_token"].ToString());
-            api.AddCalendar(model.CalendarId, model.Event);
+            api.AddEvent(model.CalendarId, model.Event);
 
-            Response.Redirect("~/");
-            return null;
-        }
-
-        public ActionResult Login()
-        {
-            var clientId = ConfigurationManager.AppSettings.Get("client_id");
-            var redirectUri = ConfigurationManager.AppSettings.Get("redirect_uri");
-            var scope = HttpUtility.UrlEncode("https://www.googleapis.com/auth/calendar") + "+" +
-                        HttpUtility.UrlEncode("https://www.googleapis.com/auth/userinfo.profile");
-
-            var addr = string.Format("https://accounts.google.com/o/oauth2/auth?client_id={0}&response_type=code&redirect_uri={1}&scope={2}",
-                                    clientId,
-                                    redirectUri,
-                                    scope
-                                );
-
-            Response.Redirect(addr);
-            return null;
-        }
-
-        public ActionResult Logout()
-        {
-            Session["access_token"] = null;
-
-            Response.Redirect("~/");
-            return null;
-        }
-
-        public ActionResult Auth(string code)
-        {
-            var apis = new GoogleApis();
-
-            apis.Auth(code);
-            Session.Add("access_token", apis.AccessToken);
-
-            var userInfo = apis.GetUserInfo();
-            Session.Add("user_info", userInfo);
-
-            Response.Redirect("~/");
-            return null;
+            return Redirect("~/");
         }
     }
 }
