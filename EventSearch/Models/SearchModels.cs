@@ -21,6 +21,8 @@ namespace EventSearch.Models
         [Range(1,12)]
         public int Month { get; set; }
 
+        public int TimeZoneOffset { get; set; }
+
         public List<CommonEvent> Events { get; set; }
 
         public SearchModels()

@@ -56,7 +56,7 @@
                 </td>
             </tr>
         </table>
-
+        @Html.Hidden("TimeZoneOffset", "", new { id = "TimeZoneOffset" })
         <p>
             <input type="submit" value="登録" />
         </p>
@@ -70,3 +70,9 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script>
+    $(document).ready(function () {
+        var localDate = new Date();
+        $("#TimeZoneOffset").val(localDate.getTimezoneOffset());
+    });
+</script>

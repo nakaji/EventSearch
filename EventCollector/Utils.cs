@@ -8,19 +8,43 @@ namespace EventCollector
 {
     public static class Utils
     {
-
-        public static DateTime GetJapaneseTime(DateTime utcTime)
+        /// <summary>
+        /// UTCの日付をJSTの日付に変換して返す
+        /// </summary>
+        /// <param name="utcTime"></param>
+        /// <returns></returns>
+        public static DateTime GetJstTime(DateTime utcTime)
         {
             var tokyoStandardTime = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
-            var japaneseTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime.ToUniversalTime(), tokyoStandardTime);
+            var japaneseTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tokyoStandardTime);
             return japaneseTime;
         }
 
-        public static DateTime? GetJapaneseTime(DateTime? utcTime)
+        public static DateTime? GetJstTime(DateTime? utcTime)
         {
-            if (utcTime == null)return null;
+            if (utcTime == null) return null;
 
-            return GetJapaneseTime(utcTime.Value);
+            return GetJstTime(utcTime.Value);
         }
+
+        /// <summary>
+        /// JSTの日付をUTCの日付に変換して返す
+        /// </summary>
+        /// <param name="utcTime"></param>
+        /// <returns></returns>
+        public static DateTime GetUtcTime(DateTime jstTime)
+        {
+            //var tokyoStandardTime = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
+            //var utcTime = TimeZoneInfo.ConvertTimeToUtc(jstTime, tokyoStandardTime);
+            return jstTime.ToUniversalTime();
+        }
+
+        public static DateTime? GetUtcTime(DateTime? jstTime)
+        {
+            if (jstTime == null) return null;
+
+            return GetUtcTime(jstTime.Value);
+        }
+
     }
 }

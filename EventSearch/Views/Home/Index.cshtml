@@ -30,6 +30,7 @@
                 @Html.LabelFor(x => x.Month)
             </div>
         </div>
+        @Html.Hidden("TimeZoneOffset", "", new { id = "TimeZoneOffset" })
         <input class="btn col-md-offset-4" type="submit" value="検索" />
     </fieldset>
 }
@@ -39,7 +40,7 @@
         using (Html.BeginForm("AddEvent", "Home", FormMethod.Get))
         {
             <div class="row result-row">
-                <div class="col-md-2">@e.StartedAt.Value.ToString("dd日 HH:mm")</div>
+                <div class="col-md-2">@e.StartedAt.Value.ToUniversalTime().AddMinutes(-Model.TimeZoneOffset).ToString("dd日 HH:mm")</div>
                 <div class="col-md-6"><a href="@e.EventUrl"><a href="@e.EventUrl">@e.Title</a></div>
                 <div class="col-md-3">@e.Place</div>
                 @if (Session["access_token"] != null)
@@ -49,8 +50,8 @@
                 <input type="hidden" name="WebSvc" value="@e.WebSvc" />
                 <input type="hidden" name="Id" value="@e.Id" />
                 <input type="hidden" name="Title" value="@e.Title" />
-                <input type="hidden" name="StartedAt" value="@e.StartedAt" />
-                <input type="hidden" name="EndedAt" value="@e.EndedAt" />
+                <input type="hidden" name="startedAtUtcTime" value="@EventCollector.Utils.GetUtcTime(e.StartedAt)" />
+                <input type="hidden" name="EndedAtUtcTime" value="@EventCollector.Utils.GetUtcTime(e.EndedAt)" />
                 <input type="hidden" name="Address" value="@e.Address" />
                 <input type="hidden" name="Place" value="@e.Place" />
                 <input type="hidden" name="OwnerNickname" value="@e.OwnerNickname" />
@@ -60,3 +61,9 @@
         }
     }
 </div>
+<script>
+    $(document).ready(function () {
+        var localDate = new Date();
+        $("#TimeZoneOffset").val(localDate.getTimezoneOffset());
+    });
+</script>

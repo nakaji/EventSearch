@@ -13,5 +13,6 @@ namespace EventSearch.Models
         [DisplayName("カレンダー")]
         public List<CalendarInfo> CalendarList { get; set; }
         public string CalendarId { get; set; }
+        public int TimeZoneOffset { get; set; }
     }
 }
