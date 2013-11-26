@@ -61,10 +61,12 @@ namespace EventSearch.Models
             }
         }
 
-        public void AddEvent(string calendarId, CommonEvent e)
+        public void AddEvent(string calendarId, CommonEvent e, int timeZoneOffset)
         {
-            var start = XmlConvert.ToString(e.StartedAt.Value.ToUniversalTime(), XmlDateTimeSerializationMode.Utc);
-            var end = XmlConvert.ToString(e.EndedAt.Value.ToUniversalTime(), XmlDateTimeSerializationMode.Utc);
+            string start, end;
+
+            start = XmlConvert.ToString(e.StartedAt.Value.AddMinutes(timeZoneOffset), XmlDateTimeSerializationMode.Utc);
+            end = XmlConvert.ToString(e.EndedAt.Value.AddMinutes(timeZoneOffset), XmlDateTimeSerializationMode.Utc);
             var query = DynamicJson.Serialize(
                 new
                    {

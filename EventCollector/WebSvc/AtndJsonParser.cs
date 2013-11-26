@@ -16,10 +16,7 @@ namespace EventCollector.WebSvc
             var events = new List<CommonEvent>();
             foreach (var item in root.events)
             {
-                DateTime? startedAt = Utils.GetJapaneseTime(item.started_at);
-                DateTime? endedAt = Utils.GetJapaneseTime(item.ended_at);
-
-                events.Add(new CommonEvent(CommonEvent.WebSvcType.Atnd, item.event_id, item.title, startedAt, endedAt,
+                events.Add(new CommonEvent(CommonEvent.WebSvcType.Atnd, item.event_id, item.title, item.started_at, item.ended_at,
                                      item.address, item.place, item.description, item.owner_nickname, item.url,
                                      item.event_url));
             }
